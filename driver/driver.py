@@ -94,8 +94,8 @@ class Driver(Interation):
             self.driver = uc.Chrome(options, user_data_dir, log_level=4, headless=headless)
         except WebDriverException as e:
             if 'This version of ChromeDriver only supports Chrome version' in str(e):
-                versao_chromedriver_suporta = re.search("ChromeDriver only supports Chrome version (\\d+)", e).group(1)
-                versao_navegador_cliente = re.search("Current browser version is (\\d+\\.\\d+\\.\\d+\\.\\d+)", e).group(1)
+                versao_chromedriver_suporta = re.search("ChromeDriver only supports Chrome version (\\d+)", str(e)).group(1)
+                versao_navegador_cliente = re.search("Current browser version is (\\d+\\.\\d+\\.\\d+\\.\\d+)", str(e)).group(1)
                 logging.critical(f'Erro: Navegador está na versão {versao_navegador_cliente}. O ChromeDriver suporta apenas a vesão {versao_chromedriver_suporta}. Favor atualizar o Navegador.')
             else:
                 logging.critical('Erro ao instânciar Navegador.')
@@ -148,8 +148,8 @@ class Driver(Interation):
             self.driver = webdriver.Chrome(service=service, options=options)
         except WebDriverException as e:
             if 'This version of ChromeDriver only supports Chrome version' in str(e):
-                versao_chromedriver_suporta = re.search("ChromeDriver only supports Chrome version (\\d+)", e).group(1)
-                versao_navegador_cliente = re.search("Current browser version is (\\d+\\.\\d+\\.\\d+\\.\\d+)", e).group(1)
+                versao_chromedriver_suporta = re.search("ChromeDriver only supports Chrome version (\\d+)", str(e)).group(1)
+                versao_navegador_cliente = re.search("Current browser version is (\\d+\\.\\d+\\.\\d+\\.\\d+)", str(e)).group(1)
                 logging.critical(f'Erro: Navegador está na versão {versao_navegador_cliente}. O ChromeDriver suporta apenas a vesão {versao_chromedriver_suporta}. Favor atualizar o Navegador.')
             else:
                 logging.critical('Erro ao instânciar Navegador.')
@@ -202,8 +202,8 @@ class Driver(Interation):
             self.driver = webdriver.Firefox(service=service, options=options)
         except WebDriverException as e:
             if 'This version of ChromeDriver only supports Chrome version' in str(e):
-                versao_chromedriver_suporta = re.search("ChromeDriver only supports Chrome version (\\d+)", e).group(1)
-                versao_navegador_cliente = re.search("Current browser version is (\\d+\\.\\d+\\.\\d+\\.\\d+)", e).group(1)
+                versao_chromedriver_suporta = re.search("ChromeDriver only supports Chrome version (\\d+)", str(e)).group(1)
+                versao_navegador_cliente = re.search("Current browser version is (\\d+\\.\\d+\\.\\d+\\.\\d+)", str(e)).group(1)
                 logging.critical(f'Erro: Navegador está na versão {versao_navegador_cliente}. O ChromeDriver suporta apenas a vesão {versao_chromedriver_suporta}. Favor atualizar o Navegador.')
             else:
                 logging.critical('Erro ao instânciar Navegador.')

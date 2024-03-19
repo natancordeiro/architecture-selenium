@@ -1,4 +1,5 @@
 import os
+import re
 import logging
 import sys
 from iterator.iteration import Interation
@@ -8,6 +9,7 @@ from selenium.webdriver.firefox.options import Options as GeckoOptions
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
+from selenium.common.exceptions import WebDriverException
 import undetected_chromedriver as uc
 
 class Driver(Interation):
@@ -88,7 +90,16 @@ class Driver(Interation):
         if desabilitar_carregamento_imagem:
             options.add_argument('--blink-settings=imagesEnabled=false')
 
-        self.driver = uc.Chrome(options, user_data_dir, log_level=4, headless=headless)
+        try:
+            self.driver = uc.Chrome(options, user_data_dir, log_level=4, headless=headless)
+        except WebDriverException as e:
+            if 'This version of ChromeDriver only supports Chrome version' in str(e):
+                versao_chromedriver_suporta = re.search("ChromeDriver only supports Chrome version (\\d+)", e).group(1)
+                versao_navegador_cliente = re.search("Current browser version is (\\d+\\.\\d+\\.\\d+\\.\\d+)", e).group(1)
+                logging.critical(f'Erro: Navegador está na versão {versao_navegador_cliente}. O ChromeDriver suporta apenas a vesão {versao_chromedriver_suporta}. Favor atualizar o Navegador.')
+            else:
+                logging.critical('Erro ao instânciar Navegador.')
+                sys.exit(1)
 
     def make_chrome(self, headless, incognito, download_path, desabilitar_carregamento_imagem, remote):
         """
@@ -133,8 +144,16 @@ class Driver(Interation):
                 options.add_argument("--incognito")
             if desabilitar_carregamento_imagem:
                 options.add_argument('--blink-settings=imagesEnabled=false')
-
+        try:
             self.driver = webdriver.Chrome(service=service, options=options)
+        except WebDriverException as e:
+            if 'This version of ChromeDriver only supports Chrome version' in str(e):
+                versao_chromedriver_suporta = re.search("ChromeDriver only supports Chrome version (\\d+)", e).group(1)
+                versao_navegador_cliente = re.search("Current browser version is (\\d+\\.\\d+\\.\\d+\\.\\d+)", e).group(1)
+                logging.critical(f'Erro: Navegador está na versão {versao_navegador_cliente}. O ChromeDriver suporta apenas a vesão {versao_chromedriver_suporta}. Favor atualizar o Navegador.')
+            else:
+                logging.critical('Erro ao instânciar Navegador.')
+                sys.exit(1)
 
     def make_mozilla(self, headless, incognito, download_path, desabilitar_carregamento_imagem, remote):
         """
@@ -179,4 +198,13 @@ class Driver(Interation):
             if desabilitar_carregamento_imagem:
                 options.add_argument('--blink-settings=imagesEnabled=false')
 
+        try:
             self.driver = webdriver.Firefox(service=service, options=options)
+        except WebDriverException as e:
+            if 'This version of ChromeDriver only supports Chrome version' in str(e):
+                versao_chromedriver_suporta = re.search("ChromeDriver only supports Chrome version (\\d+)", e).group(1)
+                versao_navegador_cliente = re.search("Current browser version is (\\d+\\.\\d+\\.\\d+\\.\\d+)", e).group(1)
+                logging.critical(f'Erro: Navegador está na versão {versao_navegador_cliente}. O ChromeDriver suporta apenas a vesão {versao_chromedriver_suporta}. Favor atualizar o Navegador.')
+            else:
+                logging.critical('Erro ao instânciar Navegador.')
+                sys.exit(1)

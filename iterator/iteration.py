@@ -80,7 +80,7 @@ class Interation:
         elemento = self.driver.find_element(metodo, tag)
         return elemento
 
-    def find_all(self, tag: str, tempo=15, metodo='xpath'):
+    def find_all(self, tag: str, timeout=15, metodo='xpath'):
         """
         Localiza todos os elementos correspondentes na página.
 
@@ -92,10 +92,22 @@ class Interation:
         Returns:
             list: Lista de elementos encontrados.
         """
-        WebDriverWait(self.driver, tempo).until(
+        WebDriverWait(self.driver, timeout).until(
             EC.presence_of_element_located((metodo, tag)))
         elementos = self.driver.find_elements(metodo, tag)
         return elementos
+    
+    def wait_for(self, tag:str, timeout=15, metodo='xpath'):
+        """
+        Espera até que um elemento seja encontrado na página.
+
+        Args:
+            tag (str): Identificador do elemento.
+            timeout (int): Tempo máximo de espera em segundos (padrão: 15).
+            metodo (str): Método de localização do elemento (padrão: 'xpath').
+        """
+        return WebDriverWait(self.driver, timeout).until(
+            EC.element_to_be_clickable((metodo, tag)))
 
     def get_attribute(self, tag: str, atributo='value', tempo=15, metodo='xpath'):
         """

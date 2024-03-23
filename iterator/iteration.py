@@ -1,6 +1,7 @@
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.remote.webelement import WebElement
 import time
 
 class Interation:
@@ -63,7 +64,7 @@ class Interation:
             elemento.send_keys(tecla)
         return True
 
-    def find(self, tag: str, tempo=15, metodo='xpath'):
+    def find(self, tag: str, tempo=15, metodo='xpath') -> WebElement:
         """
         Localiza um elemento na página.
 
@@ -80,7 +81,7 @@ class Interation:
         elemento = self.driver.find_element(metodo, tag)
         return elemento
 
-    def find_all(self, tag: str, timeout=15, metodo='xpath'):
+    def find_all(self, tag: str, timeout=15, metodo='xpath') -> list[WebElement]:
         """
         Localiza todos os elementos correspondentes na página.
 

@@ -77,7 +77,7 @@ class Interation:
             elemento.send_keys(tecla)
         return True
 
-    def find(self, tag: str, tempo=15, metodo='xpath') -> WebElement:
+    def find(self, tag: str, tempo=15, metodo='xpath', element_is='clickable') -> WebElement:
         """
         Localiza um elemento na página.
 
@@ -89,19 +89,36 @@ class Interation:
         Returns:
             selenium.webdriver.remote.webelement.WebElement: Elemento encontrado.
         """
-        metodos = {
+        if metodo is None:
+            metodos = {
             'css': By.CSS_SELECTOR,
             'id': By.ID,
             'xpath': By.XPATH
-        }
+            }
 
-        method = metodos.get(metodo)
+            method = metodos.get(metodo)
+        else:
+            method = metodo
+        
+        if element_is is None:
+            atributos = {
+            'clickable': EC.element_to_be_clickable,
+            'selected': EC.element_to_be_selected,
+            'text_in': EC.text_to_be_present_in_element,
+            'presence': EC.presence_of_element_located,
+            'visibled': EC.visibility_of_element_located
+            }
+
+            atributo = atributos.get(element_is)
+        else:
+            atributo = EC.element_to_be_clickable
+
         WebDriverWait(self.driver, tempo).until(
-            EC.element_to_be_clickable((method, tag)))
+            atributo((method, tag)))
         elemento = self.driver.find_element(method, tag)
         return elemento
 
-    def find_all(self, tag: str, tempo=15, metodo='xpath') -> list[WebElement]:
+    def find_all(self, tag: str, tempo=15, metodo='xpath', element_is='presence') -> list[WebElement]:
         """
         Localiza todos os elementos correspondentes na página.
 
@@ -119,14 +136,27 @@ class Interation:
             'xpath': By.XPATH
         }
 
+        if element_is is None:
+            atributos = {
+            'clickable': EC.element_to_be_clickable,
+            'selected': EC.element_to_be_selected,
+            'text_in': EC.text_to_be_present_in_element,
+            'presence': EC.presence_of_element_located,
+            'visibled': EC.visibility_of_element_located
+            }
+
+            atributo = atributos.get(element_is)
+        else:
+            atributo = EC.presence_of_element_located
+
         method = metodos.get(metodo)
 
         WebDriverWait(self.driver, tempo).until(
-            EC.presence_of_element_located((method, tag)))
+            atributo((method, tag)))
         elementos = self.driver.find_elements(method, tag)
         return elementos
     
-    def wait_for(self, tag:str, timeout=15, metodo='xpath'):
+    def wait_for(self, tag:str, timeout=15, metodo='xpath', element_is='clickable'):
         """
         Espera até que um elemento seja encontrado na página.
 
@@ -141,9 +171,22 @@ class Interation:
             'xpath': By.XPATH
         }
 
+        if element_is is None:
+            atributos = {
+            'clickable': EC.element_to_be_clickable,
+            'selected': EC.element_to_be_selected,
+            'text_in': EC.text_to_be_present_in_element,
+            'presence': EC.presence_of_element_located,
+            'visibled': EC.visibility_of_element_located
+            }
+
+            atributo = atributos.get(element_is)
+        else:
+            atributo = EC.element_to_be_clickable
+
         method = metodos.get(metodo)
         return WebDriverWait(self.driver, timeout).until(
-            EC.element_to_be_clickable((method, tag)))
+            atributo((method, tag)))
 
     def get_attribute(self, tag: str, atributo='value', tempo=15, metodo='xpath'):
         """

@@ -100,7 +100,7 @@ class Interation:
         else:
             method = metodo
         
-        if element_is is None:
+        if element_is is not None:
             atributos = {
             'clickable': EC.element_to_be_clickable,
             'selected': EC.element_to_be_selected,
@@ -136,7 +136,7 @@ class Interation:
             'xpath': By.XPATH
         }
 
-        if element_is is None:
+        if element_is is not None:
             atributos = {
             'clickable': EC.element_to_be_clickable,
             'selected': EC.element_to_be_selected,
@@ -171,7 +171,7 @@ class Interation:
             'xpath': By.XPATH
         }
 
-        if element_is is None:
+        if element_is is not None:
             atributos = {
             'clickable': EC.element_to_be_clickable,
             'selected': EC.element_to_be_selected,

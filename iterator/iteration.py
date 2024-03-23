@@ -89,16 +89,13 @@ class Interation:
         Returns:
             selenium.webdriver.remote.webelement.WebElement: Elemento encontrado.
         """
-        if metodo is None:
-            metodos = {
+        metodos = {
             'css': By.CSS_SELECTOR,
             'id': By.ID,
             'xpath': By.XPATH
-            }
+        }
 
-            method = metodos.get(metodo)
-        else:
-            method = metodo
+        method = metodos.get(metodo)
         
         if element_is is not None:
             atributos = {

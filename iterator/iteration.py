@@ -1,4 +1,5 @@
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.remote.webelement import WebElement
@@ -30,8 +31,14 @@ class Interation:
         Returns:
             bool: True se o clique for bem-sucedido, False caso contrário.
         """
+        metodos = {
+            'css': By.CSS_SELECTOR,
+            'id': By.ID,
+            'xpath': By.XPATH
+        }
+        method = metodos.get(metodo)
         el = WebDriverWait(self.driver, tempo).until(
-            EC.element_to_be_clickable((metodo, tag)))
+            EC.element_to_be_clickable((method, tag)))
         self.driver.execute_script("arguments[0].click();", el)
         return True
 
@@ -48,9 +55,15 @@ class Interation:
         Returns:
             bool: True se a ação for bem-sucedida, False caso contrário.
         """
+        metodos = {
+            'css': By.CSS_SELECTOR,
+            'id': By.ID,
+            'xpath': By.XPATH
+        }
+        method = metodos.get(metodo)
         WebDriverWait(self.driver, tempo).until(
-            EC.presence_of_element_located((metodo, tag)))
-        elemento = self.driver.find_element(metodo, tag)
+            EC.presence_of_element_located((method, tag)))
+        elemento = self.driver.find_element(method, tag)
         acoes = {
             'enter': Keys.ENTER,
             'esc': Keys.ESCAPE,
@@ -76,12 +89,19 @@ class Interation:
         Returns:
             selenium.webdriver.remote.webelement.WebElement: Elemento encontrado.
         """
+        metodos = {
+            'css': By.CSS_SELECTOR,
+            'id': By.ID,
+            'xpath': By.XPATH
+        }
+
+        method = metodos.get(metodo)
         WebDriverWait(self.driver, tempo).until(
-            EC.element_to_be_clickable((metodo, tag)))
-        elemento = self.driver.find_element(metodo, tag)
+            EC.element_to_be_clickable((method, tag)))
+        elemento = self.driver.find_element(method, tag)
         return elemento
 
-    def find_all(self, tag: str, timeout=15, metodo='xpath') -> list[WebElement]:
+    def find_all(self, tag: str, tempo=15, metodo='xpath') -> list[WebElement]:
         """
         Localiza todos os elementos correspondentes na página.
 
@@ -93,9 +113,17 @@ class Interation:
         Returns:
             list: Lista de elementos encontrados.
         """
-        WebDriverWait(self.driver, timeout).until(
-            EC.presence_of_element_located((metodo, tag)))
-        elementos = self.driver.find_elements(metodo, tag)
+        metodos = {
+            'css': By.CSS_SELECTOR,
+            'id': By.ID,
+            'xpath': By.XPATH
+        }
+
+        method = metodos.get(metodo)
+
+        WebDriverWait(self.driver, tempo).until(
+            EC.presence_of_element_located((method, tag)))
+        elementos = self.driver.find_elements(method, tag)
         return elementos
     
     def wait_for(self, tag:str, timeout=15, metodo='xpath'):
@@ -107,8 +135,15 @@ class Interation:
             timeout (int): Tempo máximo de espera em segundos (padrão: 15).
             metodo (str): Método de localização do elemento (padrão: 'xpath').
         """
+        metodos = {
+            'css': By.CSS_SELECTOR,
+            'id': By.ID,
+            'xpath': By.XPATH
+        }
+
+        method = metodos.get(metodo)
         return WebDriverWait(self.driver, timeout).until(
-            EC.element_to_be_clickable((metodo, tag)))
+            EC.element_to_be_clickable((method, tag)))
 
     def get_attribute(self, tag: str, atributo='value', tempo=15, metodo='xpath'):
         """
@@ -123,7 +158,14 @@ class Interation:
         Returns:
             str: Valor do atributo especificado.
         """
-        return self.find(tag, tempo, metodo).get_attribute(atributo)
+        metodos = {
+            'css': By.CSS_SELECTOR,
+            'id': By.ID,
+            'xpath': By.XPATH
+        }
+
+        method = metodos.get(metodo)
+        return self.find(tag, tempo, method).get_attribute(atributo)
 
     def click_js(self, tag: str, tempo=15, metodo='xpath'):
         """
@@ -134,7 +176,14 @@ class Interation:
             tempo (int): Tempo máximo de espera em segundos (padrão: 15).
             metodo (str): Método de localização do elemento (padrão: 'xpath').
         """
-        el = self.find(tag, tempo, metodo)
+        metodos = {
+            'css': By.CSS_SELECTOR,
+            'id': By.ID,
+            'xpath': By.XPATH
+        }
+
+        method = metodos.get(metodo)
+        el = self.find(tag, tempo, method)
         self.driver.execute_script("arguments[0].click();", el)
 
     def write_js(self, tag, valor):
@@ -158,6 +207,12 @@ class Interation:
             tempo (int): Tempo máximo de espera em segundos (padrão: 15).
             metodo (str): Método de localização do elemento (padrão: 'xpath').
         """
+        metodos = {
+            'css': By.CSS_SELECTOR,
+            'id': By.ID,
+            'xpath': By.XPATH
+        }
+        metodo = metodos.get(metodo)
         el = self.find(seletor, tempo, metodo)
         el.send_keys(str(valor))
 

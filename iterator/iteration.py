@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.remote.webelement import WebElement
+from selenium.common.exceptions import TimeoutException
 import time
 
 class Interation:
@@ -184,6 +185,24 @@ class Interation:
         method = metodos.get(metodo)
         return WebDriverWait(self.driver, timeout).until(
             atributo((method, tag)))
+    
+    def wait_for_url(self, target_url: str, timeout=10):
+        """
+        Espera até que a URL do navegador seja igual à URL alvo.
+
+        Args:
+            target_url (str): URL alvo que estamos esperando.
+            timeout (int, opcional): Tempo máximo de espera em segundos. Padrão é 10 segundos.
+
+        Exemplo de uso:
+            driver = webdriver.Chrome()
+            driver.get('https://www.example.com')
+            wait_for_url(driver, 'https://www.example.com')
+        """
+        try:
+            WebDriverWait(self.driver, timeout).until(EC.url_to_be(target_url))
+        except TimeoutException:
+            raise TimeoutException(f"A URL não correspondeu à URL alvo '{target_url}' dentro do tempo limite de {timeout} segundos.")
 
     def get_attribute(self, tag: str, atributo='value', tempo=15, metodo='xpath'):
         """

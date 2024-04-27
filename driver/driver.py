@@ -27,7 +27,7 @@ class Driver(Interation):
             remote (bool): Define se a execução será remota (padrão: False).
             desabilitar_carregamento_imagem (bool): Define se o carregamento de imagens será desabilitado (padrão: False).
         """
-        if download_path != '':
+        if download_path == '':
             download_path = self.get_download_dir()
 
         if remote:

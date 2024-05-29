@@ -4,8 +4,10 @@ import sys
 import time
 from datetime import datetime
 from selenium.common.exceptions import WebDriverException, NoSuchElementException
+
 from driver.driver import Driver
 from iterator.iteration import Interation
+from ext.function import setup_logging
 
 class Bot(Interation):
     """Classe que define um bot para interação automatizada com páginas da web."""

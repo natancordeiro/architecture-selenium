@@ -2,6 +2,12 @@
 Módulo onde é guardado as funções externas para utilização geral do projeto.
 """
 
+import os
+import logging
+import colorlog
+from datetime import datetime
+from logging.handlers import RotatingFileHandler
+
 def setup_logging(to_file=False):
     """Setup logging"""
 

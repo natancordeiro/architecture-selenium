@@ -7,7 +7,7 @@ from selenium.common.exceptions import WebDriverException, NoSuchElementExceptio
 
 from driver.driver import Driver
 from iterator.iteration import Interation
-from ext.function import setup_logging
+from ext.functions import setup_logging
 
 class Bot(Interation):
     """Classe que define um bot para interação automatizada com páginas da web."""

@@ -7,7 +7,7 @@ def setup_logger(log_file="app.log"):
     e em um arquivo de log.
     """
     
-    logger = logging.getLogger("finance_logger")
+    logger = logging.getLogger("logger")
     logger.setLevel(logging.DEBUG)
 
     # Cria um handler para registrar em arquivo (sem cores)

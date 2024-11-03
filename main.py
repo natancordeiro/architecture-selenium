@@ -1,7 +1,13 @@
 from src.bot import Bot
-from utils.logger.config import logger
+from utils.logger_config import logger
 
-bot = Bot(False)
-bot.load_page('https://www.google.com')
-bot.sleep(10)
-bot.quit()
+def main():
+    config_path = 'config/config.yaml'
+
+    bot = Bot(config_path)
+    bot.load_page('https://www.google.com')
+    bot.sleep(10)
+    bot.quit()
+
+if __name__ == '__main__':
+    main()

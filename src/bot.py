@@ -31,3 +31,12 @@ class Bot(Interation):
         self.configura = configuracoes['config']
 
         super().__init__(self.driver)
+
+    def close(self):
+        """Fecha o driver do Selenium."""
+
+        logger.info("Fechando navegador")
+        self.driver.quit()
+
+    def __del__(self):
+        self.close()

@@ -2,6 +2,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.common.exceptions import TimeoutException
 import time
@@ -19,6 +20,7 @@ class Interation:
         """
         self.wait = WebDriverWait(driver, tempo)
         self.driver = driver
+        self.action = ActionChains(self.driver)
 
     def click(self, tag: str, metodo='xpath', tempo=10):
         """
@@ -35,7 +37,8 @@ class Interation:
         metodos = {
             'css': By.CSS_SELECTOR,
             'id': By.ID,
-            'xpath': By.XPATH
+            'xpath': By.XPATH,
+            'name': By.NAME
         }
         method = metodos.get(metodo)
         el = WebDriverWait(self.driver, tempo).until(
@@ -59,7 +62,8 @@ class Interation:
         metodos = {
             'css': By.CSS_SELECTOR,
             'id': By.ID,
-            'xpath': By.XPATH
+            'xpath': By.XPATH,
+            'name': By.NAME
         }
         method = metodos.get(metodo)
         WebDriverWait(self.driver, tempo).until(
@@ -93,7 +97,8 @@ class Interation:
         metodos = {
             'css': By.CSS_SELECTOR,
             'id': By.ID,
-            'xpath': By.XPATH
+            'xpath': By.XPATH,
+            'name': By.NAME
         }
 
         method = metodos.get(metodo)
@@ -131,7 +136,8 @@ class Interation:
         metodos = {
             'css': By.CSS_SELECTOR,
             'id': By.ID,
-            'xpath': By.XPATH
+            'xpath': By.XPATH,
+            'name': By.NAME
         }
 
         if element_is is not None:
@@ -166,7 +172,8 @@ class Interation:
         metodos = {
             'css': By.CSS_SELECTOR,
             'id': By.ID,
-            'xpath': By.XPATH
+            'xpath': By.XPATH,
+            'name': By.NAME
         }
 
         if element_is is not None:
@@ -220,7 +227,8 @@ class Interation:
         metodos = {
             'css': By.CSS_SELECTOR,
             'id': By.ID,
-            'xpath': By.XPATH
+            'xpath': By.XPATH,
+            'name': By.NAME
         }
 
         method = metodos.get(metodo)
@@ -238,7 +246,8 @@ class Interation:
         metodos = {
             'css': By.CSS_SELECTOR,
             'id': By.ID,
-            'xpath': By.XPATH
+            'xpath': By.XPATH,
+            'name': By.NAME
         }
 
         method = metodos.get(metodo)
@@ -269,11 +278,25 @@ class Interation:
         metodos = {
             'css': By.CSS_SELECTOR,
             'id': By.ID,
-            'xpath': By.XPATH
+            'xpath': By.XPATH,
+            'name': By.NAME
         }
         metodo = metodos.get(metodo)
         el = self.find(seletor, tempo, metodo)
         el.send_keys(str(valor))
+
+    def scroll(self, element: WebElement, modo: str = 'normal'):
+        """
+        Realiza um scroll até um elemento.
+
+        Args:
+            element (WebElement): Elemento alvo do scroll.
+            modo (str): Modo de scroll (padrão: 'normal').
+        """
+        if modo == 'normal':
+            self.driver.execute_script("arguments[0].scrollIntoView();", element)
+        elif modo == 'action':
+            self.action.scroll_to_element(element).perform()
 
     def load_page(self, url):
         """

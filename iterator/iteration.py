@@ -200,7 +200,7 @@ class Interation:
             wait_for_url(driver, 'https://www.example.com')
         """
         try:
-            WebDriverWait(self.driver, timeout).until(EC.url_to_be(target_url))
+            WebDriverWait(self.driver, timeout).until(EC.url_contains(target_url))
         except TimeoutException:
             raise TimeoutException(f"A URL não correspondeu à URL alvo '{target_url}' dentro do tempo limite de {timeout} segundos.")
 

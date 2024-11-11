@@ -70,8 +70,7 @@ class Driver(Interation):
             download_path (str): O caminho para o diretório de downloads.
             desabilitar_carregamento_imagem (bool): Define se o carregamento de imagens será desabilitado.
         """
-        user_data_dir = os.path.join(os.getcwd(), 'appdata')
-        Service(ChromeDriverManager().install())
+        # user_data_dir = os.path.join(os.getcwd(), 'appdata')
         options = uc.ChromeOptions()
         options.add_argument('--disable-notifications')
         options.add_argument('--disable-extensions')
@@ -92,7 +91,8 @@ class Driver(Interation):
             options.add_argument('--blink-settings=imagesEnabled=false')
 
         try:
-            self.driver = uc.Chrome(options, user_data_dir, log_level=4, headless=headless)
+            # self.driver = uc.Chrome(options, user_data_dir, log_level=4, headless=headless)
+            self.driver = uc.Chrome(options, log_level=4, headless=headless, driver_executable_path=r'./driver/chromedriver.exe')
         except WebDriverException as e:
             if 'This version of ChromeDriver only supports Chrome version' in str(e):
                 versao_chromedriver_suporta = re.search("ChromeDriver only supports Chrome version (\\d+)", str(e)).group(1)
@@ -113,8 +113,8 @@ class Driver(Interation):
             desabilitar_carregamento_imagem (bool): Define se o carregamento de imagens será desabilitado.
             remote (bool): Define se a execução será remota.
         """
-        user_data_dir = os.path.join(os.getcwd(), 'appdata')
-        service = Service(ChromeDriverManager().install())
+        # user_data_dir = os.path.join(os.getcwd(), 'appdata')
+        service = Service(executable_path=r'./driver/chromedriver.exe')
         options = ChromeOptions()
 
         if remote:
@@ -124,7 +124,7 @@ class Driver(Interation):
             options.set_capability("selenoid:options", {"enableVideo": False})
             self.driver = webdriver.Remote(command_executor="http://localhost:4444/wd/hub", options=options)
         else:
-            options.add_argument(f"--user-data-dir={user_data_dir}")
+            # options.add_argument(f"--user-data-dir={user_data_dir}")
             options.add_argument('--log-level=4')
             options.add_argument('--disable-notifications')
             options.add_argument('--disable-extensions')

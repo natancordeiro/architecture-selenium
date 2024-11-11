@@ -81,6 +81,8 @@ class Driver(Interation):
         options.add_argument("--safebrowsing-disable-download-protection")
         options.add_experimental_option('prefs',
                                         {'download.prompt_for_download': False,
+                                         'credentials_enable_service': False,
+                                         'profile.password_manager_enabled': False,
                                          'profile.default_content_setting_values.notifications': 2,
                                          'profile.default_content_setting_values.automatic_downloads': 1,
                                          'download.default_directory': download_path})
@@ -132,6 +134,8 @@ class Driver(Interation):
             options.add_argument("--safebrowsing-disable-download-protection")
             options.add_experimental_option('prefs',
                                             {'download.prompt_for_download': False,
+                                             'credentials_enable_service': False,
+                                             'profile.password_manager_enabled': False,
                                              'profile.default_content_setting_values.notifications': 2,
                                              'profile.default_content_setting_values.automatic_downloads': 1,
                                              'download.default_directory': download_path})

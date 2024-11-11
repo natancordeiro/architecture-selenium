@@ -92,7 +92,7 @@ class Driver(Interation):
 
         try:
             # self.driver = uc.Chrome(options, user_data_dir, log_level=4, headless=headless)
-            self.driver = uc.Chrome(options, log_level=4, headless=headless, driver_executable_path=r'./driver/chromedriver.exe')
+            self.driver = uc.Chrome(options, log_level=3, headless=headless, driver_executable_path=r'./driver/chromedriver.exe')
         except WebDriverException as e:
             if 'This version of ChromeDriver only supports Chrome version' in str(e):
                 versao_chromedriver_suporta = re.search("ChromeDriver only supports Chrome version (\\d+)", str(e)).group(1)
@@ -125,13 +125,14 @@ class Driver(Interation):
             self.driver = webdriver.Remote(command_executor="http://localhost:4444/wd/hub", options=options)
         else:
             # options.add_argument(f"--user-data-dir={user_data_dir}")
-            options.add_argument('--log-level=4')
+            options.add_argument('--log-level=3')
             options.add_argument('--disable-notifications')
             options.add_argument('--disable-extensions')
             options.add_argument('--disable-gpu')
             options.add_argument("--no-sandbox")
             options.add_argument('--disable-dev-shm-usage')
             options.add_argument("--safebrowsing-disable-download-protection")
+            options.add_experimental_option("excludeSwitches", ["enable-logging"])
             options.add_experimental_option('prefs',
                                             {'download.prompt_for_download': False,
                                              'credentials_enable_service': False,

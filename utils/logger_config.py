@@ -10,6 +10,13 @@ def setup_logger(log_file="app.log"):
     logger = logging.getLogger("logger")
     logger.setLevel(logging.DEBUG)
 
+    # Evita duplicação de logs ao remover handlers existentes
+    if logger.hasHandlers():
+        logger.handlers.clear()
+
+    # Evita propagação para o root logger
+    logger.propagate = False
+
     # Cria um handler para registrar em arquivo (sem cores)
     file_handler = logging.FileHandler(log_file)
     file_handler.setLevel(logging.DEBUG)
@@ -27,7 +34,7 @@ def setup_logger(log_file="app.log"):
 
     # Define as cores para cada nível de log usando colorlog
     color_formatter = colorlog.ColoredFormatter(
-        "%(asctime)s - %(levelname)s - %(message)s",
+        "%(asctime)s - %(log_color)s%(levelname)s - %(message)s",
         datefmt='%d/%m/%Y %H:%M:%S',
         log_colors={
             'DEBUG': 'cyan',
